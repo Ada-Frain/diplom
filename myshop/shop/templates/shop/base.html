@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #logo{position:absolute;top:-180px;}
+    </style>
+    <meta charset="utf-8"/>
+    <title>{% block title %}My shop{% endblock %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        <div class="container">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav nav-fill" style="width: 70%;">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">О нас</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Доставка и оплата</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Контакты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Акции</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header>
+        <div class="container" style="height: 30vh;">
+            <div class="row align-items-center" style="height: 100%;">
+                <div class="col-md-7">
+                    <ul class="list-inline">
+                        <li class="list-inline-item text-center" style="width: 30%; margin-right: 1%;">
+                            <ul class="list-unstyled">
+                                <li>+7 777 777 77 77</li>
+                                <li>+7 777 777 77 77</li>
+                            </ul>
+                        </li>
+                        <li class="list-inline-item text-center" style="width: 30%; margin-right: 1%;">
+                            Рабочае время: 11:00-21:00
+                        </li>
+                        <li class="list-inline-item text-center" style="width: 25%; margin-right: 1%;">
+                            10 минут от метро
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <div id="logo">
+                        <a href="/">
+                            <img src="{% static 'img/mylogo.png' %}">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    {% with total_items=cart|length %}
+                        {% if cart|length > 0 %}
+                            <a class="nav-link text-center text-secondary" href="{% url 'cart:cart_detail' %}">
+                                <img src="{% static 'img/cart.png' %}" alt="Корзина" style="width: 40%;">
+                                Корзина <span class="badge badge-secondary">{{ total_items }}</span>
+                            </a>
+                        {% else %}
+                            <a class="nav-link text-center text-secondary" href="{% url 'cart:cart_detail' %}">
+                                <img src="{% static 'img/cart.png' %}" alt="Корзина" style="width: 40%;">
+                                Корзина пуста
+                            </a>
+                        {% endif %}
+                    {% endwith %}
+                    <a class="nav-link text-center text-secondary" href="#">
+                        <img src="{% static 'img/favorites.png' %}" alt="Избранное" style="width: 40%;">
+                        Избранное
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-expand-md" style="width: 100%;">
+                <ul class="navbar-nav nav-fill" style="width: 100%;">
+                    <li class="nav-item dropdown">
+                        <button type="button" class="btn btn-link btn-lg text-dark dropdown-toggle" data-toggle="dropdown">
+                            Категории
+                        </button>
+                        <ul class="unstyled dropdown-menu" style="height: 50vh; overflow-y: scroll;">
+                            <li class="list-group-item">
+                                <a href="/" class="text-dark">Все категории</a>
+                            </li>
+                            {% for c in categories %}
+                                <li class="list-group-item" {% if category.slug == c.slug %}class="selected"{% endif %}>
+                                    <a href="{{ c.get_absolute_url }}" class="text-dark">{{ c.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{% url 'shop:fandom_list' %}">Фандомы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href=#>Популярное</a>
+                    </li>
+                    <li class="nav-item col-md-6">
+                        <form action="{% url 'shop:search' %}" class="form-inline my-2 my-lg-0" method="get">
+                            <div class="input-group col-md-12">
+                                <input name="search" type="" class="form-control mr-sm-2" placeholder="Поиск">
+                                <input type="image" src="{% static 'img/search.png' %}" style="width: 50px;">
+
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        <div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    {% if fandom %}{{ fandom.name }}{% else %}Фандомы{% endif %}
+{% endblock %}
+{% block content %}
+
+<div class="container content" style="margin-top: 6%;">
+    {% if fandom %}
+    <div class="col-sm-8">
+        <h3>{{ fandom.name }}</h3>
+        <div class="row">
+            {% for product in products %}
+                <div class="product">
+                    <div class="product-img">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" alt="изображение продукта">
+                    </div>
+                    <a href="{{ product.get_absolute_url }}" class="product-title">{{ product.name }}</a><br>
+                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary">Подробнее</a>
+                    <p class='product-price'>{{product.price}}</p>
+                </div>
+            {% endfor %}                    
+        </div>        
+    </div>
+
+    {% else %}
+        <ul>
+            {% for f in fandoms %}
+                <li class="list-group-item" {% if fandom.slug == c.slug %}class="selected"{% endif %}>
+                    <a href="{{ f.get_absolute_url }}">{{ f.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    
+</div>
+
+{% endblock %}
