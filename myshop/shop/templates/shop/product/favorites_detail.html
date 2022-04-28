@@ -1,0 +1,20 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    Your shopping cart
+{% endblock %}
+{% block content %}
+<div class="container content">
+    <ul>
+        {% for item in cart %}
+        {% with product=item.product %}
+        <li>
+            <a href="{{ product.get_absolute_url }}">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+            </a>
+        </li>
+        {% endwith %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

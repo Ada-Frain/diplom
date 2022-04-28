@@ -5,23 +5,23 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="container" style="margin-top: 6%;">
-    <button type="button" value="Previous Page" class="btn btn-primary btn-lg" onClick="window.history.back();return false;">
+<div class="container">
+    <button type="button" value="Previous Page" class="btn btn-secondary btn-lg" onClick="window.history.back();">
         Назад
     </button>
-    <div class="row" style="margin: 5%;">
-        <div class="col-sm-4">
-                <img src="{{ product.image.url }}" alt="" style="width: 100%">
+    <div class="row" style="margin-top: 5%; margin-bottom: 10%;">
+        <div class="col-sm-12 col-lg-5">
+                <img src="{{ product.image.url }}" alt="" style="width: 100%;">
         </div>
-        <div class="col-md-8">
+        <div class="col-lg-7 col-sm-11">
             <h1>{{ product.name }}</h1>
+            <br>
             <p>{{ product.description | safe }}</p>
-            <p class="price">Цена: {{ product.price }}р.</p>
-            <form action="{% url "cart:cart_add" product.id %}" method="post">
+            <p class="price h3">Цена: {{ product.price }}р.</p>
+            <form action="{% url "cart:cart_add" product.id %}" method="post" class="float-sm-right" style="margin-top: 15%; margin-right: 10%;">
                 {% csrf_token %}
                 {{ cart_product_form }}
-                <br><input type="submit" value="Добавить в корзину" class="btn btn-primary">
+                <br><input type="submit" value="Добавить в корзину" class="btn btn-secondary">
             </form>
         </div>
     </div>

@@ -1,0 +1,36 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    Акции
+{% endblock %}
+
+{% block content %}
+<div class="container content">
+    <div id="content" class="col-sm-12">
+        <h1 style="margin-bottom: 5%;">Акции</h1>
+        <div class="row" style="margin-bottom: 5%;">
+            <div class="col-sm-4">
+                <a href="#" class="text-dark">
+                    <img src="{% static 'img/pikachu/pikachu1.png' %}" alt="">
+                    <h3>2+2=5</h3>
+                    <p>Получай каждый пятый значок</p>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a href="#" class="text-dark">
+                    <img src="{% static 'img/pikachu/pikachu2.png' %}" alt="">
+                    <h3>Подарки</h3>
+                    <p>При каждом заказе с сайта от 300рублей</p>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a href="#" class="text-dark">
+                    <img src="{% static 'img/pikachu/pikachu3.png' %}" alt="">
+                    <h3>Флаера</h3>
+                    <p>Собирай наши флаера с купонами</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

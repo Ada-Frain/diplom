@@ -1,0 +1,35 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    Контакты
+{% endblock %}
+
+{% block content %}
+<div class="container content">
+    <div id="content" class="col-sm-12">
+        <h1 style="margin-bottom: 5%;">Контакты</h1>
+        <div class="row" style="margin-bottom: 5%;">
+            <div class="col-sm-4">
+                <ul class="list-unstyled">
+                    <li class="py-2 d-block">Адрес: Москва, улица Большая Полянка, 1/3</li>
+                    <li class="py-2 d-block">
+                        <ul class="list-unstyled">
+                            <li>+7 777 777 77 77</li>
+                            <li>+7 777 777 77 77</li>
+                        </ul>
+                    </li>
+                    <li class="py-2 d-block">Рабочие дни: Пн - Пт<br>Выходные: Сб - Вск</li>
+                    <li class="py-2 d-block">Рабочае время: 11:00-21:00</li>
+                </ul>
+                <img src="{% static 'img/shop/shop2.jpg' %}" alt="">
+            </div>
+            <div class="col-sm-8">
+                <img src="{% static 'img/shop/shop3.jpg' %}" alt="">
+            </div>
+            <div class="col-sm-12" style="margin-top: 5%;">
+                <img src="{% static 'img/shop/shop1.jpg' %}" style="width: 100%;" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
