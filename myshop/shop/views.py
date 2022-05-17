@@ -5,7 +5,8 @@ from django.views.decorators.http import require_POST
 from django.views.generic.base import View
 from .models import Category, Fandom, Product, Rating
 from cart.forms import CartAddProductForm
-from .forms import FavoritesAddProductForm, RatingForm
+from favorite.forms import FavoriteAddProductForm
+from .forms import RatingForm
 import operator
 
 
@@ -80,7 +81,7 @@ def product_detail(request, id, slug):
     rating_stars = Rating.objects.filter(product=product).values('star')
     print(rating_stars)
     cart_product_form = CartAddProductForm()
-    favorite_product_form = FavoritesAddProductForm()
+    favorite_product_form = FavoriteAddProductForm()
     star_form = RatingForm()
     sum = 0
     for elem in rating_stars:
