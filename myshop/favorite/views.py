@@ -12,7 +12,7 @@ def favorite_add(request, product_id):
     form = FavoriteAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
-        favorite.add(product=product, quantity=cd['quantity'], update_quantity=cd['update'])
+        favorite.add(product=product)
     return redirect('favorite:favorite_detail')
 
 def favorite_remove(request, product_id):
