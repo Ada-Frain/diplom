@@ -11,18 +11,16 @@
         <div class="col-sm-12">
             <h3>{{ fandom.name }}</h3>
             <div class="row">
-                <div class="card-columns">
-                    {% for product in products %}
-                        <div class="card bg-light">
-                            <img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта">
-                            <div class="card-body text-center">
-                                <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
-                                <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
-                                <p class="card-text">{{product.price}}р.</p>
-                            </div>
+                {% for product in products %}
+                    <div class="card bg-light" style="width: 32%; margin: 0.6%;">
+                        <img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта">
+                        <div class="card-body text-center">
+                            <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
+                            <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
+                            <p class="card-text">{{product.price}}р.</p>
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>

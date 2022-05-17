@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'shop',
     'cart',
     'orders',
+    'favorite',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +134,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 CART_SESSION_ID = "cart"
-FAVORITES_SESSION_ID = "favorites"
+FAVORITE_SESSION_ID = "favorite"
 #new
 
 # Default primary key field type

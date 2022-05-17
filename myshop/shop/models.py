@@ -1,3 +1,4 @@
+from itertools import product
 from django.db import models
 from django.urls import reverse
 
@@ -50,9 +51,39 @@ class Product(models.Model):
     class Meta:
         ordering = ("name",)
         index_together = (("id", "slug"),)
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse("shop:product_detail", args=[self.id, self.slug])
+
+
+class RatingStar(models.Model):
+    """Звезда рейтинга"""
+    value = models.SmallIntegerField("Значение", default=0)
+
+    def __str__(self):
+        return f'{self.value}'
+
+    class Meta:
+        verbose_name = "Звезда рейтинга"
+        verbose_name_plural = "Звезды рейтинга"
+        ordering = ["-value"]
+
+
+
+class Rating(models.Model):
+    """Рейтинг"""
+    ip = models.CharField("IP адрес", max_length=15)
+    star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name="Звезда")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
+
+    def __str__(self):
+        return f"{self.star} - {self.product}"
+
+    class Meta:
+        verbose_name = "Рейтинг"
+        verbose_name_plural = "Рейтинги"

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Fandom, Product
+from .models import Category, Fandom, Product, Rating, RatingStar
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -26,3 +26,12 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Product, ProductAdmin)
+
+
+class RatingAdmin(admin.ModelAdmin):
+    """Рейтинг"""
+    list_display = ("star", "product", "ip")
+
+admin.site.register(Rating, RatingAdmin)
+
+admin.site.register(RatingStar)

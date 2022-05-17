@@ -7,94 +7,82 @@
 
 <div class="container content">
     {% if category %}
-    <div>
-        <div class="col-sm-12">
-            <h3>{{ category.name }}</h3>
-            <div class="row">
-                <div class="card-columns">
-                    {% for product in products %}
-                        <div class="card bg-light">
-                            <img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта">
-                            <div class="card-body text-center">
-                                <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
-                                <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
-                                <p class="card-text">{{product.price}}р.</p>
-                            </div>
-                        </div>
-                    {% endfor %}
+    <div class="col-sm-12">
+        <h3>{{ category.name }}</h3>
+        <div class="row">
+            {% for product in ordered %}
+                <div class="card bg-light" style="width: 32%; margin: 0.6%;">
+                    <a href="{{ product.get_absolute_url }}"><img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта"></a>
+                    <div class="card-body text-center">
+                        <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
+                        <p class="card-text">{{product.price}}р.</p>
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
     {% elif query %}
-    <div>
-        <div class="col-sm-12">
-            <h3>Результаты по вашему запросу "{{ query }}"</h3>
-            <div class="row">
-                <div class="card-columns">
-                    {% for product in results %}
-                        <div class="card bg-light">
-                            <img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта">
-                            <div class="card-body text-center">
-                                <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
-                                <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
-                                <p class="card-text">{{product.price}}р.</p>
-                            </div>
-                        </div>
-                    {% endfor %}
+    <div class="col-sm-12">
+        <h3>Результаты по вашему запросу "{{ query }}"</h3>
+        <div class="row">
+            {% for product in results %}
+                <div class="card bg-light" style="width: 32%; margin: 0.6%;">
+                    <a href="{{ product.get_absolute_url }}"><img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта"></a>
+                    <div class="card-body text-center">
+                        <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
+                        <p class="card-text">{{product.price}}р.</p>
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
     {% else %}
-    <div id="anime" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ul class="carousel-indicators">
-            <li data-target="#anime" data-slide-to="0" class="active"></li>
-            <li data-target="#anime" data-slide-to="1"></li>
-            <li data-target="#anime" data-slide-to="2"></li>
-        </ul>
-        <!-- The slideshow -->
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{% static 'img/raiden.jpg' %}" alt="" width="100%" height="500">
-            </div>
-            <div class="carousel-item">
-                <img src="{% static 'img/yaemiko.jpg' %}" alt="" width="100%" height="500">
-            </div>
-            <div class="carousel-item">
-                <img src="{% static 'img/cats.jpg' %}" alt="" width="100%" height="500">
-            </div>
-        </div>
-        <!-- Left and right controls -->
-        <a class="carousel-control-prev" href="#anime" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </a>
-        <a class="carousel-control-next" href="#anime" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </a>
-    </div>
-    <br>
-    <div>
-        <div class="col-sm-12">
-            <h3>Товары</h3>
-            <div class="row">
-                <div class="card-columns">
-                    {% for product in products %}
-                        <div class="card bg-light">
-                            <img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта">
-                            <div class="card-body text-center">
-                                <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
-                                <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
-                                <p class="card-text">{{product.price}}р.</p>
-                            </div>
-                        </div>
-                    {% endfor %}
+    <div class="col-sm-12">
+        <div id="anime" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#anime" data-slide-to="0" class="active"></li>
+                <li data-target="#anime" data-slide-to="1"></li>
+                <li data-target="#anime" data-slide-to="2"></li>
+            </ul>
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'img/raiden.jpg' %}" alt="" width="100%" height="500">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'img/yaemiko.jpg' %}" alt="" width="100%" height="500">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'img/cats.jpg' %}" alt="" width="100%" height="500">
                 </div>
             </div>
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#anime" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#anime" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
         </div>
+        <br>
+        <h3>Популярное</h3>
+        <div class="row">
+            {% for product in products %}
+                <div class="card bg-light" style="width: 32%; margin: 0.6%;">
+                    <a href="{{ product.get_absolute_url }}"><img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта"></a>
+                    <div class="card-body text-center">
+                        <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
+                        <p class="card-text">{{product.price}}р.</p>
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div> 
     </div>
 {% endif %}
 </div>

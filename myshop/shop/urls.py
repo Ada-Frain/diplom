@@ -8,6 +8,7 @@ urlpatterns = [
     path('contacts/', views.contacts, name='contacts'),
     path('discounts/', views.discounts, name='discounts'),
     path('fandoms/', views.fandom_list, name='fandom_list'),
+    path("add-rating/", views.add_rating, name='add_rating'),
     re_path(r'^fandoms/(?P<fandom_slug>[-\w]+)/$', views.fandom_list, name='product_list_by_fandom'),
     re_path(r'^(?P<category_slug>[-\w]+)/$', views.product_list, name='product_list_by_category'),
     re_path(r'^$', views.product_list, name='search'),

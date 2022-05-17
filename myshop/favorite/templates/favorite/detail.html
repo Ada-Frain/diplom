@@ -6,7 +6,7 @@
 {% block content %}
 
 <div class="container content">
-    {% if cart.len == 0 %}<h1>Корзина, кажется, пустая. Давай наполним ее чем-то интересным!</h1>
+    {% if favorite.len == 0 %}<h1>Корзина, кажется, пустая. Давай наполним ее чем-то интересным!</h1>
     <a href="{% url "shop:product_list" %}" class="btn btn-secondary btn-lg">За покупками</a>
     {% else %}
     <h1>Ваша корзина</h1>
@@ -22,7 +22,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for item in cart %}
+            {% for item in favorite %}
                 {% with product=item.product %}
                     <tr class="text-center">
                         <td>
@@ -33,24 +33,17 @@
                         <td style="vertical-align: middle">{{ product.name }}</td>
                         <td style="vertical-align: middle">{{ item.quantity }}</td>
                         <td style="vertical-align: middle">{{ item.price }}р.</td>
-                        <td style="vertical-align: middle"><a class="text-dark" href="{% url 'cart:cart_remove' product.id%}">Удалить товар</a></td>
+                        <td style="vertical-align: middle"><a class="text-dark" href="{% url 'favorite:favorite_remove' product.id%}">Удалить товар</a></td>
                     </tr>
                 {% endwith %}
             {% endfor %}
-            <tr class="total">
-                <td>Итого:</td>
-                <td colspan="3"></td>
-                <td class="num">{{ cart.get_total_price }}р.</td>
-            </tr>
             </tbody>
         </table>
     </div>
         
     <p class="text-right">
         <a href="{% url "shop:product_list" %}" class="btn btn-warning btn-lg">Продолжить покупки</a>
-        <a href="{% url "orders:order_create" %}" class="btn btn-warning btn-lg">Оформить заказ</a>
     </p>
     {% endif %}
 </div>
-
 {% endblock %}
