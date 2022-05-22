@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
+from django.http import HttpResponseRedirect
 from shop.models import Product, Category
 from .favorite import Favorite
 from .forms import FavoriteAddProductForm
@@ -13,15 +14,15 @@ def favorite_add(request, product_id):
     if form.is_valid():
         cd = form.cleaned_data
         favorite.add(product=product)
-    return redirect('favorite:favorite_detail')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def favorite_remove(request, product_id):
     favorite = Favorite(request)
     product = get_object_or_404(Product, id=product_id)
     favorite.remove(product)
-    return redirect('favorite:favorite_detail')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def favorite_detail(request):
     categories = Category.objects.all()
     favorite = Favorite(request)
-    return render(request, 'favorite/detail.html', {"categories": categories, 'favorite': favorite})
+    return render(request, 'favorite/detailfav.html', {"categories": categories, 'favorite': favorite})

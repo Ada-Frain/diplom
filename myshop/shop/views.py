@@ -3,16 +3,25 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.views.generic.base import View
-from .models import Category, Fandom, Product, Rating
+from .models import Category, Fandom, Product, Rating, Response
 from cart.forms import CartAddProductForm
 from favorite.forms import FavoriteAddProductForm
-from .forms import RatingForm
+from .forms import RatingForm, ResponseForm
 import operator
 
 
 def about(request):    
     categories = Category.objects.all()
-    return render(request, "shop/information/about.html", {"categories": categories})
+    comments = Response.objects.filter(active=True)
+    print(comments)
+    if request.method == "POST":
+        form = ResponseForm(request.POST)
+        if form.is_valid():
+            comment = form.save()
+            return render(request, "shop/information/about.html", {"categories": categories, "comments": comments, "comment": comment})
+    else:
+        form = ResponseForm
+    return render(request, "shop/information/about.html", {"categories": categories, "comments": comments, "form": form})
 
 def delivery(request):    
     categories = Category.objects.all()
@@ -25,6 +34,16 @@ def contacts(request):
 def discounts(request):    
     categories = Category.objects.all()
     return render(request, "shop/information/discounts.html", {"categories": categories})
+
+
+def price_filter(request, min_price, max_price):
+    categories = Category.objects.all()
+    if request.method == "POST":
+        min_price = request.POST.get["min_price"]
+        max_price = request.POST.get["max_price"]
+    
+    products = Product.objects.filter(price__range=(min_price, max_price))
+    return render(request, "shop/product/popular.html", {"categories": categories, "products": products},)
 
 
 def fandom_list(request, fandom_slug=None):
@@ -41,15 +60,37 @@ def fandom_list(request, fandom_slug=None):
         {"categories": categories, "fandom": fandom, "fandoms": fandoms, "products": products},
     )
 
+def popular_list(request):
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)
+    popular = Rating.objects.all().order_by('-star').values('product')[:6]
+    ids = []
+    results = []
+    for elem in popular:
+        ids.append(elem.get('product', None))
+    products = Product.objects.filter(id__in=ids)
+
+    if request.GET.get("price_filter"):
+        min_price = request.GET["min_price"]
+        max_price = request.GET["max_price"]
+        results = Product.objects.filter(price__range=(min_price, max_price))
+
+    return render(request, "shop/product/popular.html", {"categories": categories, "products": products, "results": results},)
+
 
 def product_list(request, category_slug=None):
     category = None
     ordered = None
     categories = Category.objects.all()
     products = Product.objects.filter(available=True)
+    popular = Rating.objects.all().order_by('-star').values('product')[:6]
+    ids = []
+    for elem in popular:
+        ids.append(elem.get('product', None))
+    print(ids)
+    products = Product.objects.filter(id__in=ids)
     query = None
     results = []
-    print(products)
 
     if request.GET.get("search"):
         query = request.GET["search"]
@@ -59,7 +100,6 @@ def product_list(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(category=category)
         ordered = sorted(products, key=operator.attrgetter('name'))
-        print(products)
 
     return render(
         request,
@@ -79,7 +119,6 @@ def product_detail(request, id, slug):
     categories = Category.objects.all()
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
     rating_stars = Rating.objects.filter(product=product).values('star')
-    print(rating_stars)
     cart_product_form = CartAddProductForm()
     favorite_product_form = FavoriteAddProductForm()
     star_form = RatingForm()

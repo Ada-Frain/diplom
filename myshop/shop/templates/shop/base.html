@@ -109,7 +109,7 @@
                             </a>
                         {% endif %}
                     {% endwith %}
-                    <a class="nav-link text-center text-secondary" href="#">
+                    <a class="nav-link text-center text-secondary" href="{% url 'favorite:favorite_detail' %}">
                         <img src="{% static 'img/favorites.png' %}" alt="Избранное" style="width: 40%;">
                         Избранное
                     </a>
@@ -126,9 +126,6 @@
                             Категории
                         </button>
                         <ul class="unstyled dropdown-menu" style="height: 50vh; overflow-y: scroll;">
-                            <li class="list-group-item">
-                                <a href="/" class="text-dark">Все категории</a>
-                            </li>
                             {% for c in categories %}
                                 <li class="list-group-item" {% if category.slug == c.slug %}class="selected"{% endif %}>
                                     <a href="{{ c.get_absolute_url }}" class="text-dark">{{ c.name }}</a>
@@ -140,7 +137,7 @@
                         <a class="nav-link text-dark" href="{% url 'shop:fandom_list' %}">Фандомы</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href=#>Популярное</a>
+                        <a class="nav-link text-dark" href="{% url 'shop:popular_list' %}">Популярное</a>
                     </li>
                     <li class="nav-item col-md-6">
                         <form action="{% url 'shop:search' %}" class="form-inline my-2 my-lg-0" method="get">

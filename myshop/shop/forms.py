@@ -1,9 +1,11 @@
 from django import forms
-from .models import Rating, RatingStar
+from .models import Rating, RatingStar, Response
 
+class ResponseForm(forms.ModelForm):
+    class Meta:
+        model = Response
+        fields = ('name', 'comment',)
 
-class FavoritesAddProductForm(forms.Form):
-    update = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
 
 class RatingForm(forms.ModelForm):
     """Форма добавления рейтинга"""

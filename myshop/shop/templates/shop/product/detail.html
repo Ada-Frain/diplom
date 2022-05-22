@@ -33,16 +33,16 @@
             </form>
 
             <div style="margin-top: 3%;">
-                <form action="{% url "cart:cart_add" product.id %}" method="post" class="float-sm-right" style="margin-right: 10%;">
-                    {% csrf_token %}
-                    {{ cart_product_form }}
-                    <br><input type="submit" value="Добавить в корзину" class="btn btn-secondary">
-                </form>
-
-                <form action="{% url "favorite:favorite_add" product.id %}" method="post" class="float-sm-right">
+                <form action="{% url "favorite:favorite_add" product.id %}" method="post" class="float-sm-right" style="margin-top: 8px;">
                     {% csrf_token %}
                     {{ favorite_product_form }}
                     <br><input type="submit" value="Добавить в избранное" class="btn btn-secondary">
+                </form>
+
+                <form action="{% url "cart:cart_add" product.id %}" method="post" class="float-sm-right" style="margin-right: 5%;">
+                    {% csrf_token %}
+                    {{ cart_product_form }}
+                    <br><input type="submit" value="Добавить в корзину" class="btn btn-secondary">
                 </form>
             </div>
         </div>

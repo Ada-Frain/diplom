@@ -1,0 +1,45 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    Популярное
+{% endblock %}
+{% block content %}
+
+<div class="container content">
+    <h3>Популярное</h3>
+    <form action="{% url 'shop:price_filter' %}" method="get">
+        {% csrf_token %}
+        <label for="min_price">От: </label>
+        <input name="min_price" type="text" name="price_filter" value="{{ min_price }}">
+        <label for="min_price">До: </label>
+        <input name="max_price" type="text" name="price_filter" value="{{ max_price }}">
+        <input type="submit" value="OK">
+    </form>
+    <div class="row">
+        {% if price_filter %}
+            {% for product in results %}
+                <div class="card bg-light" style="width: 32%; margin: 0.6%;">
+                    <a href="{{ product.get_absolute_url }}"><img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта"></a>
+                    <div class="card-body text-center">
+                        <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
+                        <p class="card-text">{{product.price}}р.</p>
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% for product in products %}
+                <div class="card bg-light" style="width: 32%; margin: 0.6%;">
+                    <a href="{{ product.get_absolute_url }}"><img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта"></a>
+                    <div class="card-body text-center">
+                        <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
+                        <p class="card-text">{{product.price}}р.</p>
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

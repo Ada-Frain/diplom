@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.http import HttpResponseRedirect
 from shop.models import Product, Category
@@ -7,9 +7,9 @@ from .forms import CartAddProductForm
 
 
 @require_POST
-def cart_add(request, product_id):
+def cart_add(request, p_id):
     cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
+    product = get_object_or_404(Product, id=p_id)
     form = CartAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
@@ -17,9 +17,9 @@ def cart_add(request, product_id):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def cart_remove(request, product_id):
+def cart_remove(request, p_id):
     cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
+    product = get_object_or_404(Product, id=p_id)
     cart.remove(product)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 

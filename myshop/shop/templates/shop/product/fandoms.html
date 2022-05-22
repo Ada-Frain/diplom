@@ -13,7 +13,7 @@
             <div class="row">
                 {% for product in products %}
                     <div class="card bg-light" style="width: 32%; margin: 0.6%;">
-                        <img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта">
+                        <a href="{{ product.get_absolute_url }}"><img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта"></a>
                         <div class="card-body text-center">
                             <a href="{{ product.get_absolute_url }}" class="card-title text-dark">{{ product.name }}</a><br>
                             <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">Подробнее</a>
@@ -26,7 +26,8 @@
     </div>
 
     {% else %}
-        <ul>
+    <h3>Фандомы</h3>
+        <ul style="columns:3;">
             {% for f in fandoms %}
                 <li class="list-group-item" {% if fandom.slug == c.slug %}class="selected"{% endif %}>
                     <a href="{{ f.get_absolute_url }}" class="text-dark">{{ f.name }}</a>

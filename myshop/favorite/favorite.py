@@ -1,6 +1,6 @@
 from django.conf import settings
 from shop.models import Product
-from decimal import Decimal
+import copy
 
 class Favorite(object):
 
@@ -15,18 +15,14 @@ class Favorite(object):
             favorite = self.session[settings.FAVORITE_SESSION_ID] = {}
         self.favorite = favorite
 
-    def add(self, product, quantity=1, update_quantity=False):
+    def add(self, product):
         """
         Добавить продукт
         """
         product_id = str(product.id)
         if product_id not in self.favorite:
-            self.favorite[product_id] = {'quantity': 0,
-                                    'price': str(product.price)}
-        if update_quantity:
-            self.cafavoritert[product_id]['quantity'] = quantity
-        else:
-            self.favorite[product_id]['quantity'] += quantity
+            self.favorite[product_id] = {}
+        
         self.save()
 
     def save(self):
@@ -45,40 +41,16 @@ class Favorite(object):
             self.save()
 
     def __iter__(self):
-        """
-        Перебор элементов и получение продуктов из базы данных.
-        """
         product_ids = self.favorite.keys()
-        # получение объектов product и добавление их в корзину
         products = Product.objects.filter(id__in=product_ids)
+        favorite = copy.deepcopy(self.favorite)
         for product in products:
-            self.favorite[str(product.id)]['product'] = product
-
-        for item in self.favorite.values():
-            item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['quantity']
+            favorite[str(product.id)]['product'] = product
+        for item in favorite.values():
             yield item
 
     def __len__(self):
-        """
-        Подсчет всех товаров
-        """
-        return sum(item['quantity'] for item in self.favorite.values())
+        return len(self.favorite)
 
     def len(self):
-        """
-        Подсчет всех товаров в корзине.
-        """
-        return sum(item["quantity"] for item in self.favorite.values())
-
-    def get_total_price(self):
-        """
-        Подсчет стоимости товаров в корзине.
-        """
-        return sum(Decimal(item['price']) * item['quantity'] for item in
-                self.favorite.values())
-
-    def clear(self):
-        # удаление корзины из сессии
-        del self.session[settings.FAVORITE_SESSION_ID]
-        self.session.modified = True
+        return len(self.favorite)

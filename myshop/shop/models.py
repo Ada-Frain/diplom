@@ -74,7 +74,6 @@ class RatingStar(models.Model):
         ordering = ["-value"]
 
 
-
 class Rating(models.Model):
     """Рейтинг"""
     ip = models.CharField("IP адрес", max_length=15)
@@ -87,3 +86,16 @@ class Rating(models.Model):
     class Meta:
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
+
+    
+class Response(models.Model):
+    name = models.CharField("Имя", max_length=200)
+    comment = models.TextField("Комментарий")
+    active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.comment[0:200]
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
