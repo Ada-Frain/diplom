@@ -6,17 +6,20 @@
 {% block content %}
 
 <div class="container content">
-    <h3>Популярное</h3>
-    <form action="{% url 'shop:price_filter' %}" method="get">
-        {% csrf_token %}
-        <label for="min_price">От: </label>
-        <input name="min_price" type="text" name="price_filter" value="{{ min_price }}">
-        <label for="min_price">До: </label>
-        <input name="max_price" type="text" name="price_filter" value="{{ max_price }}">
-        <input type="submit" value="OK">
-    </form>
-    <div class="row">
-        {% if price_filter %}
+    <div>
+        <h3>Популярное</h3>
+        <form action="{% url 'shop:price_filter' %}" method="get">
+            <br><h5>Цена</h5>
+            {% csrf_token %}
+            <input placeholder="от" style="width: 10%;" name="min_price" type="" name="min_price" value="{{ min_price }}">
+            <input placeholder="до" style="width: 10%;" name="max_price" type="" name="max_price" value="{{ max_price }}">
+            <input type="submit" value="Показать">
+        </form>
+    </div><br>
+    <div>
+        {% if results %}
+        <h3>Результаты</h3>
+        <div class="row">
             {% for product in results %}
                 <div class="card bg-light" style="width: 32%; margin: 0.6%;">
                     <a href="{{ product.get_absolute_url }}"><img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта"></a>
@@ -27,7 +30,9 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
         {% else %}
+        <div class="row">
             {% for product in products %}
                 <div class="card bg-light" style="width: 32%; margin: 0.6%;">
                     <a href="{{ product.get_absolute_url }}"><img class="card-img-top" style="width:100%" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="изображение продукта"></a>
@@ -38,6 +43,7 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
         {% endif %}
     </div>
 

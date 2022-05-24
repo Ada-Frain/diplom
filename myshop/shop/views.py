@@ -70,12 +70,13 @@ def popular_list(request):
         ids.append(elem.get('product', None))
     products = Product.objects.filter(id__in=ids)
 
-    if request.GET.get("price_filter"):
+    if request.GET.get("min_price") and request.GET.get("max_price"):
         min_price = request.GET["min_price"]
         max_price = request.GET["max_price"]
-        results = Product.objects.filter(price__range=(min_price, max_price))
+        results = Product.objects.filter(price__range=(int(min_price), int(max_price)))
+        print(min_price, max_price, results)
 
-    return render(request, "shop/product/popular.html", {"categories": categories, "products": products, "results": results},)
+    return render(request, "shop/product/popular.html", {"categories": categories, "results": results, "products": products,})
 
 
 def product_list(request, category_slug=None):
