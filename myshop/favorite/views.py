@@ -12,7 +12,6 @@ def favorite_add(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     form = FavoriteAddProductForm(request.POST)
     if form.is_valid():
-        cd = form.cleaned_data
         favorite.add(product=product)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 

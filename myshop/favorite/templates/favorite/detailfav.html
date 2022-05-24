@@ -30,8 +30,8 @@
                             </a>
                         </td>
                         <td style="vertical-align: middle">{{ product.name }}</td>
-                        <td style="vertical-align: middle">{{ item.price }}р.</td>
-                        <td style="vertical-align: middle"><a class="text-dark" href="{% url 'favorite:favorite_remove' product.id%}">Удалить товар</a></td>
+                        <td style="vertical-align: middle">{{ product.price }}р.</td>
+                        <td style="vertical-align: middle"><a class="text-dark" href="{% url 'favorite:favorite_remove' product.id %}">Удалить товар</a></td>
                     </tr>
                 {% endwith %}
             {% endfor %}
@@ -40,7 +40,7 @@
     </div>
         
     <p class="text-right">
-        <a href="{% url "shop:product_list" %}" class="btn btn-secondary btn-lg">Продолжить покупки</a>
+        <a href="{% url 'shop:product_list' %}" class="btn btn-secondary btn-lg">Продолжить покупки</a>
     </p>
     {% endif %}
 </div>
