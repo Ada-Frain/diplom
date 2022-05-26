@@ -1,4 +1,6 @@
 from cProfile import label
+from tabnanny import verbose
+from unicodedata import name
 from django.db import models
 from shop.models import Product
 
@@ -7,9 +9,8 @@ class Order(models.Model):
     first_name = models.CharField(max_length=50, verbose_name="Имя")
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
     email = models.EmailField(verbose_name="E-mail")
-    address = models.CharField(max_length=250, verbose_name="Адрес")
-    postal_code = models.CharField(max_length=20, verbose_name="Почтовый индекс")
-    city = models.CharField(max_length=100, verbose_name="Город")
+    address = models.CharField(max_length=250, verbose_name="Адрес", default="", blank=True)
+    postal_code = models.CharField(max_length=20, verbose_name="Почтовый индекс", default="", blank=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Создано")
     updated = models.DateTimeField(auto_now=True, verbose_name="Обновлено")
     paid = models.BooleanField(default=False, verbose_name="Оплачено")

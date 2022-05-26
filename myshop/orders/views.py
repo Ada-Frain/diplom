@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart
+from django.core.mail import send_mail
 
 
 def order_create(request):

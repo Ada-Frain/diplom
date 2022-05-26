@@ -16,47 +16,6 @@ img {
 	height: auto;
 	max-width: 100%;
 }
-
-/* Checkbox stars */
-.rating {
-	overflow: hidden;
-	vertical-align: bottom;
-	display: inline-block;
-	width: 155px;
-	height: 30px;
-}
-
-.rating > input {
-	opacity: 0;
-	margin-right: -100%;
-}
-
-.rating > label {
-	position: relative;
-	display: block;
-	float: right;
-	background: url('../images/no_image.png');
-	background-size: 30px 30px;
-}
-
-.rating > label:before {
-	display: block;
-	opacity: 0;
-	content: '';
-	width: 30px;
-	height: 30px;
-	background: url('../images/search.png');
-	background-size: 30px 30px;
-	transition: opacity 0.2s linear;
-}
-
-.rating > label:hover:before,  .rating > label:hover ~ label:before,  .rating:not(:hover) > :checked ~ label:before { opacity: 1; }
-/* //Checkbox stars */
-
-.bgr {
-	background-image: url("{% static 'img/star-off-big.png' %}");
-}
-
 .product {
 	background: #fff none repeat scroll 0 0;
 	border: 1px solid #c0c0c0;
