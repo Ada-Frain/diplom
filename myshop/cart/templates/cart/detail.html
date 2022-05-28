@@ -31,7 +31,7 @@
                             </a>
                         </td>
                         <td style="vertical-align: middle">{{ p.name }}</td>
-                        <td style="vertical-align: middle">{{ p.quantity }}</td>
+                        <td style="vertical-align: middle">{{ item.quantity }}</td>
                         <td style="vertical-align: middle">{{ p.price }}р.</td>
                         <td style="vertical-align: middle"><a class="text-dark" href="{% url 'cart:cart_remove' p.id %}">Удалить товар</a></td>
                     </tr>

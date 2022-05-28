@@ -1,8 +1,7 @@
-from unicodedata import name
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from unittest import result
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
-from django.views.generic.base import View
 from .models import Category, Fandom, Product, Rating, Response
 from cart.forms import CartAddProductForm
 from favorite.forms import FavoriteAddProductForm
@@ -36,14 +35,15 @@ def discounts(request):
     return render(request, "shop/information/discounts.html", {"categories": categories})
 
 
-def price_filter(request, min_price, max_price):
+def price_filter(request, ids):
     categories = Category.objects.all()
-    if request.method == "POST":
-        min_price = request.POST.get["min_price"]
-        max_price = request.POST.get["max_price"]
-    
-    products = Product.objects.filter(price__range=(min_price, max_price))
-    return render(request, "shop/product/popular.html", {"categories": categories, "products": products},)
+    print(ids + 'a')
+    products = Product.objects.filter(id__in=ids)
+    min_price = request.GET["min_price"]
+    max_price = request.GET["max_price"]
+    results = products.filter(price__range=(int(min_price), int(max_price)))
+
+    return render(request, "shop/product/fandoms.html", {"categories": categories, "results": results, "ids": ids},)
 
 
 def fandom_list(request, fandom_slug=None):
@@ -51,14 +51,18 @@ def fandom_list(request, fandom_slug=None):
     fandom = None
     fandoms = Fandom.objects.all()
     products = Product.objects.filter(available=True)
+    results = []
     if fandom_slug:
         fandom = get_object_or_404(Fandom, slug=fandom_slug)
         products = products.filter(fandom=fandom)
-    return render(
-        request,
-        "shop/product/fandoms.html",
-        {"categories": categories, "fandom": fandom, "fandoms": fandoms, "products": products},
-    )
+        if request.GET.get("min_price") and request.GET.get("max_price"):
+            min_price = request.GET["min_price"]
+            max_price = request.GET["max_price"]
+            results = products.filter(price__range=(int(min_price), int(max_price)))
+            if not results:
+                products = None
+
+    return render(request, "shop/product/fandoms.html", {"categories": categories, "fandom": fandom, "fandoms": fandoms, "results": results, "products": products},)
 
 def popular_list(request):
     categories = Category.objects.all()
@@ -68,13 +72,14 @@ def popular_list(request):
     results = []
     for elem in popular:
         ids.append(elem.get('product', None))
-    products = Product.objects.filter(id__in=ids)
+    products = products.filter(id__in=ids)
 
     if request.GET.get("min_price") and request.GET.get("max_price"):
         min_price = request.GET["min_price"]
         max_price = request.GET["max_price"]
-        results = Product.objects.filter(price__range=(int(min_price), int(max_price)))
-        print(min_price, max_price, results)
+        results = products.filter(price__range=(int(min_price), int(max_price)))
+        if not results:
+            products = None
 
     return render(request, "shop/product/popular.html", {"categories": categories, "results": results, "products": products,})
 
@@ -83,24 +88,31 @@ def product_list(request, category_slug=None):
     category = None
     ordered = None
     categories = Category.objects.all()
-    products = Product.objects.filter(available=True)
     popular = Rating.objects.all().order_by('-star').values('product')[:6]
     ids = []
     for elem in popular:
         ids.append(elem.get('product', None))
-    print(ids)
-    products = Product.objects.filter(id__in=ids)
+    products = Product.objects.filter(id__in=ids, available=True)
     query = None
+    results_search = []
     results = []
 
     if request.GET.get("search"):
         query = request.GET["search"]
-        results = Product.objects.filter(name__iregex=query)
+        results_search = Product.objects.filter(name__iregex=query)
+        products = None
 
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(category=category)
         ordered = sorted(products, key=operator.attrgetter('name'))
+        if request.GET.get("min_price") and request.GET.get("max_price"):
+            min_price = request.GET["min_price"]
+            max_price = request.GET["max_price"]
+            results = products.filter(price__range=(int(min_price), int(max_price)))
+            if not results:
+                products = None
+                ordered = None
 
     return render(
         request,
@@ -110,6 +122,7 @@ def product_list(request, category_slug=None):
             "categories": categories,
             "products": products,
             "query": query,
+            "results_search": results_search,
             "results": results,
             "ordered": ordered
         },

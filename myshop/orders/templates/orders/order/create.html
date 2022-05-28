@@ -41,8 +41,10 @@
             $("label[for='id_address']").css('display', 'none');
         }
         else{
-            field_1.value = "";
-            field_2.value = "";
+            if (field_1.value == "Самовывоз"){
+                field_1.value = "";
+                field_2.value = "";
+            }
             field_1.style.display = "block";
             field_2.style.display = "block";
             $("label[for='id_postal_code']").css('display', 'block');
